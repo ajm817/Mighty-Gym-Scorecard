@@ -1,140 +1,165 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mighty Gym – Scorecard Logger</title>
+  <title>Mighty Gym – Scorecard</title>
   <style>
     body {
-      font-family: system-ui, sans-serif;
-      background: #0f1220;
-      color: #eaeaf0;
       margin: 0;
-      padding: 20px;
-    }
-    h1 {
-      font-size: 1.8rem;
-      margin-bottom: 10px;
-    }
-    .card {
-      background: #171a33;
-      border-radius: 16px;
-      padding: 16px;
-      margin-bottom: 16px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-    }
-    label {
-      display: block;
-      margin-top: 10px;
-      font-size: 0.9rem;
-      opacity: 0.9;
-    }
-    input, select {
-      width: 100%;
-      padding: 10px;
-      margin-top: 4px;
-      border-radius: 10px;
-      border: none;
-      background: #0f1220;
+      font-family: system-ui, sans-serif;
+      background: radial-gradient(circle at top, #1b1f3a, #090b16 70%);
       color: #fff;
-    }
-    button {
-      margin-top: 14px;
-      padding: 12px;
-      width: 100%;
-      border-radius: 12px;
-      border: none;
-      background: #6c7bff;
-      color: #fff;
-      font-size: 1rem;
-      cursor: pointer;
-    }
-    button:hover { background: #5a68e6; }
-    .log {
-      margin-top: 10px;
-    }
-    .entry {
-      background: #0f1220;
-      padding: 12px;
-      border-radius: 12px;
-      margin-bottom: 8px;
-      font-size: 0.9rem;
-    }
+    }.scorecard {
+  max-width: 900px;
+  margin: 20px auto;
+  background: rgba(15,18,32,0.85);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  background: linear-gradient(90deg, #22265a, #15183a);
+}
+
+.avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #000;
+  margin-right: 14px;
+  border: 2px solid #ffb000;
+}
+
+.user-info h1 {
+  margin: 0;
+  font-size: 1.6rem;
+  color: #ffb000;
+}
+
+.user-info span {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  padding: 16px;
+  background: #0e1126;
+}
+
+.stat {
+  background: #15183a;
+  border-radius: 14px;
+  padding: 14px;
+  text-align: center;
+}
+
+.stat .value {
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #ffb000;
+}
+
+.stat .label {
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+.workouts {
+  padding: 16px;
+}
+
+.workout {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #0f1220;
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+}
+
+.workout span {
+  opacity: 0.85;
+}
+
+.rank {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #ffb000;
+}
+
+.footer {
+  padding: 14px;
+  text-align: center;
+  font-size: 0.75rem;
+  opacity: 0.6;
+  background: #0b0d1c;
+}
+
+/* Mobile tweaks */
+@media (max-width: 600px) {
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
   </style>
 </head>
-<body>
-  <h1>🥊 Mighty Gym Scorecards</h1>
-
-  <div class="card">
-    <h2>Log a Workout</h2>
-
-    <label>Workout Type</label>
-    <select id="type">
-      <option value="Workout">Workout</option>
-      <option value="Freestyle">Freestyle</option>
-      <option value="World Event">World Event</option>
-    </select>
-
-    <label>Workout Name / Description</label>
-    <input id="name" placeholder="e.g. Mighty Shuffle, Uppercut Drill" />
-
-    <label>World Event Number (optional)</label>
-    <input id="eventNum" type="number" placeholder="e.g. 23" />
-
-    <label>Score (optional)</label>
-    <input id="score" type="number" placeholder="e.g. 86234" />
-
-    <button onclick="addEntry()">Add Scorecard</button>
+<body>  <div class="scorecard">
+    <div class="header">
+      <div class="avatar"></div>
+      <div class="user-info">
+        <h1>SpeakVr</h1>
+        <span>Human Participant • Level 8</span>
+      </div>
+    </div><div class="stats">
+  <div class="stat">
+    <div class="value">A</div>
+    <div class="label">Group Avg</div>
   </div>
-
-  <div class="card">
-    <h2>Saved Scorecards</h2>
-    <div id="log" class="log"></div>
+  <div class="stat">
+    <div class="value">A</div>
+    <div class="label">Personal Avg</div>
   </div>
+  <div class="stat">
+    <div class="value">99</div>
+    <div class="label">Intensity</div>
+  </div>
+  <div class="stat">
+    <div class="value">0</div>
+    <div class="label">Mighterium</div>
+  </div>
+</div>
 
-  <script>
-    const logEl = document.getElementById('log');
-    let entries = JSON.parse(localStorage.getItem('mightyGymLogs') || '[]');
+<div class="workouts">
+  <div class="workout">
+    <span>DDR Lunges</span>
+    <span class="rank">C</span>
+  </div>
+  <div class="workout">
+    <span>Side Plank</span>
+    <span class="rank">S</span>
+  </div>
+  <div class="workout">
+    <span>Gliding (World Event)</span>
+    <span class="rank">116</span>
+  </div>
+  <div class="workout">
+    <span>Climbing (World Event)</span>
+    <span class="rank">188</span>
+  </div>
+</div>
 
-    function render() {
-      logEl.innerHTML = '';
-      entries.forEach((e, i) => {
-        const div = document.createElement('div');
-        div.className = 'entry';
-        div.innerHTML = `
-          <strong>${e.type}</strong> — ${e.name || 'Unnamed'}<br>
-          ${e.type === 'World Event' && e.eventNum ? 'Event #' + e.eventNum + '<br>' : ''}
-          ${e.score ? 'Score: ' + e.score + '<br>' : ''}
-          <small>${e.date}</small>
-        `;
-        logEl.appendChild(div);
-      });
-    }
+<div class="footer">
+  Mighty Gym • Fan-made scorecard
+</div>
 
-    function addEntry() {
-      const type = document.getElementById('type').value;
-      const name = document.getElementById('name').value;
-      const eventNum = document.getElementById('eventNum').value;
-      const score = document.getElementById('score').value;
-
-      const entry = {
-        type,
-        name,
-        eventNum,
-        score,
-        date: new Date().toLocaleString()
-      };
-
-      entries.unshift(entry);
-      localStorage.setItem('mightyGymLogs', JSON.stringify(entries));
-      render();
-
-      document.getElementById('name').value = '';
-      document.getElementById('eventNum').value = '';
-      document.getElementById('score').value = '';
-    }
-
-    render();
-  </script>
-</body>
+  </div></body>
 </html>
