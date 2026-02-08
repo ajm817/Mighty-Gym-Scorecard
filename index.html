@@ -2,164 +2,168 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mighty Gym – Scorecard</title>
+  <title>Mighty Gym – Scorecard Builder</title>
   <style>
     body {
       margin: 0;
       font-family: system-ui, sans-serif;
       background: radial-gradient(circle at top, #1b1f3a, #090b16 70%);
       color: #fff;
-    }.scorecard {
+      padding: 16px;
+    }h1 { text-align: center; margin-bottom: 10px; }
+
+.builder, .scorecard {
   max-width: 900px;
-  margin: 20px auto;
-  background: rgba(15,18,32,0.85);
+  margin: 0 auto 20px;
+  background: rgba(15,18,32,0.9);
   border-radius: 18px;
-  overflow: hidden;
+  padding: 16px;
   box-shadow: 0 20px 40px rgba(0,0,0,0.6);
 }
 
+label { font-size: 0.85rem; opacity: 0.85; }
+input, select {
+  width: 100%;
+  padding: 10px;
+  margin: 6px 0 12px;
+  border-radius: 10px;
+  border: none;
+  background: #0f1220;
+  color: #fff;
+}
+
+button {
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  background: #ffb000;
+  color: #000;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.workout-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr auto;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.workout-row button {
+  background: #ff5555;
+  color: #fff;
+}
+
+/* SCORECARD */
 .header {
   display: flex;
   align-items: center;
-  padding: 16px;
-  background: linear-gradient(90deg, #22265a, #15183a);
+  margin-bottom: 12px;
 }
 
 .avatar {
-  width: 64px;
-  height: 64px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   background: #000;
-  margin-right: 14px;
   border: 2px solid #ffb000;
+  margin-right: 12px;
 }
 
-.user-info h1 {
-  margin: 0;
-  font-size: 1.6rem;
-  color: #ffb000;
-}
-
-.user-info span {
-  font-size: 0.9rem;
-  opacity: 0.8;
-}
-
-.stats {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-  padding: 16px;
-  background: #0e1126;
-}
-
-.stat {
-  background: #15183a;
-  border-radius: 14px;
-  padding: 14px;
-  text-align: center;
-}
-
-.stat .value {
-  font-size: 2.2rem;
-  font-weight: bold;
-  color: #ffb000;
-}
-
-.stat .label {
-  font-size: 0.8rem;
-  opacity: 0.8;
-}
-
-.workouts {
-  padding: 16px;
-}
+.user-info h2 { margin: 0; color: #ffb000; }
+.user-info span { font-size: 0.85rem; opacity: 0.8; }
 
 .workout {
   display: flex;
   justify-content: space-between;
-  align-items: center;
   background: #0f1220;
+  padding: 10px 12px;
   border-radius: 12px;
-  padding: 12px 14px;
   margin-bottom: 8px;
 }
 
-.workout span {
-  opacity: 0.85;
-}
+.rank { font-weight: bold; color: #ffb000; }
 
-.rank {
-  font-size: 1.4rem;
-  font-weight: bold;
-  color: #ffb000;
-}
-
-.footer {
-  padding: 14px;
-  text-align: center;
-  font-size: 0.75rem;
-  opacity: 0.6;
-  background: #0b0d1c;
-}
-
-/* Mobile tweaks */
 @media (max-width: 600px) {
-  .stats {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  .workout-row { grid-template-columns: 1fr; }
 }
 
   </style>
 </head>
-<body>  <div class="scorecard">
-    <div class="header">
-      <div class="avatar"></div>
-      <div class="user-info">
-        <h1>SpeakVr</h1>
-        <span>Human Participant • Level 8</span>
-      </div>
-    </div><div class="stats">
-  <div class="stat">
-    <div class="value">A</div>
-    <div class="label">Group Avg</div>
-  </div>
-  <div class="stat">
-    <div class="value">A</div>
-    <div class="label">Personal Avg</div>
-  </div>
-  <div class="stat">
-    <div class="value">99</div>
-    <div class="label">Intensity</div>
-  </div>
-  <div class="stat">
-    <div class="value">0</div>
-    <div class="label">Mighterium</div>
-  </div>
-</div>
+<body><h1>🥊 Mighty Gym Scorecard Builder</h1><div class="builder">
+  <label>Player Name</label>
+  <input id="playerName" placeholder="SpeakVr" /><label>Level</label> <input id="level" placeholder="8" />
 
-<div class="workouts">
-  <div class="workout">
-    <span>DDR Lunges</span>
-    <span class="rank">C</span>
-  </div>
-  <div class="workout">
-    <span>Side Plank</span>
-    <span class="rank">S</span>
-  </div>
-  <div class="workout">
-    <span>Gliding</span>
-    <span class="rank">Score: 116</span>
-  </div>
-  <div class="workout">
-    <span>Climbing</span>
-    <span class="rank">Score: 188</span>
-  </div>
-</div>
+  <h3>Add Workout</h3>
+  <div class="workout-row">
+    <input id="wName" placeholder="Workout name" />
+    <select id="wType">
+      <option value="grade">Grade</option>
+      <option value="score">Score</option>
+    </select>
+    <input id="wValue" placeholder="C / A / S or 123" />
+    <button onclick="addWorkout()">+</button>
+  </div>  <div id="workoutList"></div><button onclick="generate()" style="width:100%; margin-top:12px">Done – Generate Scorecard</button>
 
-<div class="footer">
-  Mighty Gym • Fan-made scorecard
-</div>
+</div><div id="card" class="scorecard" style="display:none">
+  <div class="header">
+    <div class="avatar"></div>
+    <div class="user-info">
+      <h2 id="cName"></h2>
+      <span id="cLevel"></span>
+    </div>
+  </div>  <div id="cWorkouts"></div>
+</div><script>
+  const workouts = [];
 
-  </div></body>
+  function addWorkout() {
+    const name = wName.value;
+    const type = wType.value;
+    const value = wValue.value;
+    if (!name || !value) return;
+
+    workouts.push({ name, type, value });
+    wName.value = wValue.value = '';
+    renderList();
+  }
+
+  function renderList() {
+    workoutList.innerHTML = '';
+    workouts.forEach((w, i) => {
+      const div = document.createElement('div');
+      div.className = 'workout-row';
+      div.innerHTML = `
+        <input disabled value="${w.name}" />
+        <input disabled value="${w.type}" />
+        <input disabled value="${w.value}" />
+        <button onclick="removeWorkout(${i})">✕</button>
+      `;
+      workoutList.appendChild(div);
+    });
+  }
+
+  function removeWorkout(i) {
+    workouts.splice(i, 1);
+    renderList();
+  }
+
+  function generate() {
+    cName.textContent = playerName.value || 'Player';
+    cLevel.textContent = 'Level ' + (level.value || '?');
+    cWorkouts.innerHTML = '';
+
+    workouts.forEach(w => {
+      const div = document.createElement('div');
+      div.className = 'workout';
+      div.innerHTML = `
+        <span>${w.name}</span>
+        <span class="rank">${w.type === 'grade' ? w.value : 'Score: ' + w.value}</span>
+      `;
+      cWorkouts.appendChild(div);
+    });
+
+    card.style.display = 'block';
+    card.scrollIntoView({ behavior: 'smooth' });
+  }
+</script></body>
 </html>
