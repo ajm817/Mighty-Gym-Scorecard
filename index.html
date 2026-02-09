@@ -3,6 +3,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mighty Gym – Scorecard Builder</title>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <style>
     body {
       margin: 0;
@@ -62,12 +63,13 @@ button {
 }
 
 .avatar {
-  width: 60px;
-  height: 60px;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
   background: #000;
   border: 2px solid #ffb000;
   margin-right: 12px;
+  object-fit: cover;
 }
 
 .user-info h2 { margin: 0; color: #ffb000; }
@@ -94,6 +96,8 @@ button {
   <label>Player Name</label>
   <input id="playerName" placeholder="SpeakVr" /><label>Level</label> <input id="level" placeholder="8" />
 
+<label>Profile Picture</label> <input type="file" accept="image/*" onchange="loadAvatar(event)" />
+
   <h3>Add Workout</h3>
   <div class="workout-row">
     <input id="wName" placeholder="Workout name" />
@@ -107,14 +111,23 @@ button {
 
 </div><div id="card" class="scorecard" style="display:none">
   <div class="header">
-    <div class="avatar"></div>
+    <img id="avatar" class="avatar" />
     <div class="user-info">
       <h2 id="cName"></h2>
       <span id="cLevel"></span>
     </div>
-  </div>  <div id="cWorkouts"></div>
+  </div>  <div id="cWorkouts"></div><button onclick="exportImage()" style="width:100%; margin-top:12px">Export Scorecard (PNG)</button>
+
 </div><script>
   const workouts = [];
+
+  function loadAvatar(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => avatar.src = reader.result;
+    reader.readAsDataURL(file);
+  }
 
   function addWorkout() {
     const name = wName.value;
@@ -164,6 +177,15 @@ button {
 
     card.style.display = 'block';
     card.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function exportImage() {
+    html2canvas(card).then(canvas => {
+      const link = document.createElement('a');
+      link.download = 'mighty-gym-scorecard.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    });
   }
 </script></body>
 </html>
